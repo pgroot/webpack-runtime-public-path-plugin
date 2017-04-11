@@ -1,0 +1,20 @@
+{
+  "name": "webpack-runtime-public-path-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pgroot",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pgroot/webpack-runtime-public-path-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "runtime",
+    "publicPath"
+  ]
+}
