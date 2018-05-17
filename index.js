@@ -17,8 +17,8 @@ RuntimePublicPath.prototype.apply = function(compiler) {
             buf.push(source);
             buf.push('');
             buf.push('// Dynamic assets path override (webpack-runtime-public-path-plugin)');
-            buf.push(this.requireFn + '.p = (' + runtimePublicPathStr + ') || ' + this.requireFn + '.p;');
-            return this.asString(buf);
+            buf.push('__webpack_require__.p = (' + runtimePublicPathStr + ') || __webpack_require__p;');
+            return buf.join('\n');
         });
     });
 };
