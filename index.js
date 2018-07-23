@@ -6,22 +6,36 @@ function RuntimePublicPath(options) {
     this.options = options;
     this._name = 'WebpackRuntimePublicPathPlugin';
 }
-RuntimePublicPath.prototype.apply = function(compiler) {
+
+function buf(path, source) {
+    var buf = [];
+    buf.push(source);
+    buf.push('');
+    buf.push('// Dynamic assets path override (webpack-runtime-public-path-plugin)');
+    buf.push('__webpack_require__.p = (' + path + ') || __webpack_require__.p;');
+    return buf.join('\n');
+}
+
+RuntimePublicPath.prototype.apply = function (compiler) {
     var runtimePublicPathStr = this.options && this.options.runtimePublicPath;
     if (!runtimePublicPathStr) {
         console.error('RuntimePublicPath: no output.runtimePublicPath is specified. This plugin will do nothing.');
         return;
     }
-    compiler.hooks.thisCompilation.tap(this._name, function(compilation) {()
-        compilation.mainTemplate.plugin('require-extensions', function(source, chunk, hash) {
-            var buf = [];
-            buf.push(source);
-            buf.push('');
-            buf.push('// Dynamic assets path override (webpack-runtime-public-path-plugin)');
-            buf.push('__webpack_require__.p = (' + runtimePublicPathStr + ') || __webpack_require__.p;');
-            return buf.join('\n');
+
+    if (compiler.hooks && compiler.hooks.thisCompilation) {
+        compiler.hooks.thisCompilation.tap(this._name, function (compilation) {
+            compilation.mainTemplate.plugin('require-extensions', function (source, chunk, hash) {
+                return buf(runtimePublicPathStr, source)
+            });
         });
-    });
+    } else {
+        compiler.plugin('this-compilation', function (compilation) {
+            compilation.mainTemplate.plugin('require-extensions', function (source, chunk, hash) {
+                return buf(runtimePublicPathStr, source)
+            });
+        });
+    }
 };
 
 module.exports = RuntimePublicPath;
