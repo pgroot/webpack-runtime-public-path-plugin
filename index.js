@@ -3,7 +3,8 @@
  */
 
 function RuntimePublicPath(options) {
-    this.options = options
+    this.options = options;
+    this._name = 'WebpackRuntimePublicPathPlugin';
 }
 RuntimePublicPath.prototype.apply = function(compiler) {
     var runtimePublicPathStr = this.options && this.options.runtimePublicPath;
@@ -11,7 +12,7 @@ RuntimePublicPath.prototype.apply = function(compiler) {
         console.error('RuntimePublicPath: no output.runtimePublicPath is specified. This plugin will do nothing.');
         return;
     }
-    compiler.plugin('this-compilation', function(compilation) {
+    compiler.hooks.thisCompilation.tap(this._name, function(compilation) {()
         compilation.mainTemplate.plugin('require-extensions', function(source, chunk, hash) {
             var buf = [];
             buf.push(source);
