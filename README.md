@@ -1,5 +1,8 @@
 # webpack-runtime-public-path-plugin
 
+Webpack now provide config to change public path.
+[See webpack guide page](https://webpack.js.org/guides/public-path/).
+
 A plugin that lets you override the Webpack modules public path in webpage runtime.
 
 # Configuration
