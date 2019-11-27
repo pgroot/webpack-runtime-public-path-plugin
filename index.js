@@ -24,9 +24,9 @@ RuntimePublicPath.prototype.apply = function (compiler) {
     }
 
     if (compiler.hooks && compiler.hooks.thisCompilation) {
-        compiler.hooks.thisCompilation.tap(this._name, function (compilation) {
-            compilation.mainTemplate.plugin('require-extensions', function (source, chunk, hash) {
-                return buf(runtimePublicPathStr, source)
+        compiler.hooks.compilation.tap(pluginName, function (compilation) {
+            compilation.mainTemplate.hooks.requireExtensions.tap(pluginName, function(source) {
+                return buf(runtimePublicPathStr, source);
             });
         });
     } else {
