@@ -18,6 +18,8 @@ function buf(path, source) {
 
 RuntimePublicPath.prototype.apply = function (compiler) {
     var runtimePublicPathStr = this.options && this.options.runtimePublicPath;
+    var pluginName = this._name;
+
     if (!runtimePublicPathStr) {
         console.error('RuntimePublicPath: no output.runtimePublicPath is specified. This plugin will do nothing.');
         return;
